@@ -20,7 +20,7 @@ public class TestDataUtility {
         return Author.builder()
                 .id(2L)
                 .name("Max")
-                .age(15)
+                .age(25)
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class TestDataUtility {
         return Author.builder()
                 .id(3L)
                 .name("John")
-                .age(16)
+                .age(50)
                 .build();
     }
 
