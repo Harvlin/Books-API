@@ -1,4 +1,4 @@
-package com.project.springBootProject.domain;
+package com.project.springBootProject.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.extern.java.Log;
 
 @Entity
 @Table(name = "books")
-public class Book {
+public class BookEntity {
 
     @Id
     String isbn;
@@ -21,6 +21,6 @@ public class Book {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
-    private Author author;
+    private AuthorEntity author;
 
 }
