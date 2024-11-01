@@ -6,10 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.project.springBootProject.domain")
-public class SpringBootProjectApplication {
+public class BooksAPI {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootProjectApplication.class, args);
+		SpringApplication.run(BooksAPI.class, args);
 	}
-
 }

@@ -1,0 +1,15 @@
+
+PUT /books/{isbn} -> Create
+GET /books/{isbn} -> Read-one
+GET /books -> Read-many(list)
+PUT /books/{isbn} -> Full-update
+PATCH /books/{isbn} -> Partial-update
+DELETE /books/{isbn} -> Delete
+
+
+POST /authors -> Create
+GET /authors/{id} -> Read-one
+GET /authors -> Read-many(list)
+PUT /authors/{id} -> Partial-update
+PATCH /authors/{id} -> Partial-update
+DELETE /authors/{id} -> Delete

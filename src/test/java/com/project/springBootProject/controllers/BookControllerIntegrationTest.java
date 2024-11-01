@@ -2,8 +2,8 @@ package com.project.springBootProject.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.springBootProject.TestDataUtility;
-import com.project.springBootProject.domain.entities.AuthorEntity;
-import com.project.springBootProject.domain.entities.BookEntity;
+import com.project.springBootProject.domain.dto.AuthorDto;
+import com.project.springBootProject.domain.dto.BookDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +33,12 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void TestThatCreateBookSuccessfullyReturnHttp201Created() throws Exception {
-        AuthorEntity authorEntityA = TestDataUtility.createTestAuthorA();
-        BookEntity bookEntityA = TestDataUtility.createTestBookA(authorEntityA);
-        String bookJson = objectMapper.writeValueAsString(bookEntityA);
+        AuthorDto authorDto = TestDataUtility.createTestAuthorDtoA();
+        BookDto bookDto = TestDataUtility.createTestBookDtoA(authorDto);
+        String bookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/books/" + bookEntityA.getIsbn())
+                MockMvcRequestBuilders.put("/books/" + bookDto.getIsbn())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(bookJson)
         ).andExpect(
@@ -48,12 +48,12 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void TestThatCreateBookSuccessfullyReturnSavedBook() throws Exception{
-        AuthorEntity authorEntityA = TestDataUtility.createTestAuthorA();
-        BookEntity bookEntityA = TestDataUtility.createTestBookA(authorEntityA);
-        String bookJson = objectMapper.writeValueAsString(bookEntityA);
+        AuthorDto authorDto = TestDataUtility.createTestAuthorDtoA();
+        BookDto bookDto = TestDataUtility.createTestBookDtoA(authorDto);
+        String bookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/books/" + bookEntityA.getIsbn())
+                MockMvcRequestBuilders.put("/books/" + bookDto.getIsbn())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(bookJson)
         ).andExpect(
@@ -61,7 +61,7 @@ public class BookControllerIntegrationTest {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.title").value("The Beginning After The End")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.author").value(authorEntityA)
+                MockMvcResultMatchers.jsonPath("$.author").value(authorDto)
         );
     }
 }
