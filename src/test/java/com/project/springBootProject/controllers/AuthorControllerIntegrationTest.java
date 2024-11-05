@@ -126,7 +126,7 @@ public class AuthorControllerIntegrationTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/999")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .contentType(authorDtoJson)
+                        .content(authorDtoJson)
         ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
@@ -150,5 +150,54 @@ public class AuthorControllerIntegrationTest {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.age").value(savedAuthorEntity.getAge())
         );
+    }
+
+    @Test
+    public void TestThatPartialUpdateExistingAuthorReturnHttpStatus200Ok() throws  Exception{
+        AuthorEntity authorEntityA = TestDataUtility.createTestAuthorA();
+        AuthorEntity savedAuthorEntity = authorService.save(authorEntityA);
+
+        AuthorDto authorDto = TestDataUtility.createTestAuthorDtoA();
+        authorDto.setName("UPDATED");
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void TestThatPartialUpdateUpdatesExistingAuthor() throws Exception {
+        AuthorEntity authorEntityA = TestDataUtility.createTestAuthorA();
+        AuthorEntity savedAuthorEntity = authorService.save(authorEntityA);
+
+        AuthorEntity authorDto  = TestDataUtility.createTestAuthorB();
+        authorDto.setName("UPDATED");
+        String authorDtoUpdateJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoUpdateJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(savedAuthorEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value("UPDATED")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge())
+        );
+    }
+
+    @Test
+    public void TestThatDeleteAuthorReturnHttpStatus204() throws Exception{
+        AuthorEntity authorEntityA = TestDataUtility.createTestAuthorA();
+        AuthorEntity savedAuthorEntity = authorService.save(authorEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/authors/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 }
