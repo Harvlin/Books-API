@@ -80,7 +80,7 @@ public class BookControllerIntegrationTest {
     @Test
     public void TestThatListBookReturnedListOfBook() throws Exception {
         BookEntity bookEntityA = TestDataUtility.createTestBookA(null);
-        bookService.createBook(bookEntityA.getIsbn(), bookEntityA);
+        bookService.save(bookEntityA.getIsbn(), bookEntityA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books")
@@ -95,7 +95,7 @@ public class BookControllerIntegrationTest {
     @Test
     public void TestThatGetBookReturnHttpsStatus200() throws Exception {
         BookEntity bookEntityA = TestDataUtility.createTestBookA(null);
-        bookService.createBook(bookEntityA.getIsbn(), bookEntityA);
+        bookService.save(bookEntityA.getIsbn(), bookEntityA);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books/1234567890")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,7 +105,7 @@ public class BookControllerIntegrationTest {
     @Test
     public void TestThatGetBookReturnBook() throws Exception {
         BookEntity bookEntityA = TestDataUtility.createTestBookA(null);
-        bookService.createBook(bookEntityA.getIsbn(), bookEntityA);
+        bookService.save(bookEntityA.getIsbn(), bookEntityA);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books/1234567890")

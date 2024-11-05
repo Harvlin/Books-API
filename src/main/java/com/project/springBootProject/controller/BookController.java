@@ -1,5 +1,6 @@
 package com.project.springBootProject.controller;
 
+import com.project.springBootProject.domain.dto.AuthorDto;
 import com.project.springBootProject.domain.dto.BookDto;
 import com.project.springBootProject.domain.entities.BookEntity;
 import com.project.springBootProject.mappers.Mapper;
@@ -26,12 +27,15 @@ public class BookController {
     }
 
     @PutMapping("/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
         BookEntity bookEntity = bookMapper.mapFrom(bookDto);
-        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+        BookEntity savedBookEntity = bookService.save(isbn, bookEntity);
         BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
-
-        return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        if (bookService.isExist(isbn)) {
+            return new ResponseEntity<>(savedBookDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping("/books")
