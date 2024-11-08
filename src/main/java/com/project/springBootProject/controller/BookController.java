@@ -10,9 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -21,10 +19,11 @@ public class BookController {
     private BookService bookService;
 
     @Autowired
-    public BookController(Mapper<BookEntity, BookDto> bookMapper, BookService bookService) {
+    public BookController(BookService bookService, Mapper<BookEntity, BookDto> bookMapper) {
+        this.bookService = bookService;
         this.bookMapper = bookMapper;
-        this.bookService  = bookService;
     }
+
 
     @PutMapping("/books/{isbn}")
     public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {

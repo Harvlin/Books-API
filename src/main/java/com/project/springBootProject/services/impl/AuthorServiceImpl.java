@@ -4,6 +4,8 @@ import com.project.springBootProject.domain.dto.AuthorDto;
 import com.project.springBootProject.domain.entities.AuthorEntity;
 import com.project.springBootProject.repositories.AuthorRepository;
 import com.project.springBootProject.services.AuthorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +23,20 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorEntity save(AuthorEntity authorEntity) {
-        return authorRepository.save(authorEntity);
+        return authorRepository.findByName(authorEntity.getName())
+                .orElseGet(() -> authorRepository.save(authorEntity));
     }
 
+    /*
     @Override
     public List<AuthorEntity> findAll() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+     */
+
+    @Override
+    public Page<AuthorEntity> findAll(Pageable pageable) {
+        return authorRepository.findAll(pageable);
     }
 
     @Override

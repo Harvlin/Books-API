@@ -134,7 +134,7 @@ public class BookControllerIntegrationTest {
     }
 
     @Test
-    public void TestThatUpdateBookReturnUpdatedBook() throws Exception {
+    public void TestThatFullUpdateBookReturnUpdatedBook() throws Exception {
         BookEntity bookEntity = TestDataUtility.createTestBookA(null);
         BookEntity savedBookEntity = bookService.createUpdateBook(bookEntity.getIsbn(), bookEntity);
 

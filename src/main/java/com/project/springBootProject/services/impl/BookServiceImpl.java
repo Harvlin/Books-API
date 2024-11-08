@@ -1,27 +1,34 @@
 package com.project.springBootProject.services.impl;
 
+import com.project.springBootProject.domain.dto.AuthorDto;
+import com.project.springBootProject.domain.dto.BookDto;
+import com.project.springBootProject.domain.entities.AuthorEntity;
 import com.project.springBootProject.domain.entities.BookEntity;
 import com.project.springBootProject.repositories.BookRepository;
+import com.project.springBootProject.services.AuthorService;
 import com.project.springBootProject.services.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    private final AuthorService authorService;
+
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
         this.bookRepository = bookRepository;
+        this.authorService = authorService;
     }
+
 
     @Override
     public BookEntity createUpdateBook(String isbn, BookEntity book) {
+        AuthorEntity author = authorService.save(book.getAuthor());
+        book.setAuthor(author);
         book.setIsbn(isbn);
         return bookRepository.save(book);
     }
