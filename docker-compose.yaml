@@ -4,8 +4,13 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - "3307:3306"  # MySQL will be available on localhost:3307
+      - "3307:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: changemeinprod!
-      MYSQL_DATABASE: springBoot_project  # Ensures the database is created
+      MYSQL_DATABASE: BooksAPI
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8888:8080

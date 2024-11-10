@@ -1,16 +1,12 @@
 package com.project.springBootProject.services.impl;
 
-import com.project.springBootProject.domain.dto.AuthorDto;
 import com.project.springBootProject.domain.entities.AuthorEntity;
 import com.project.springBootProject.repositories.AuthorRepository;
 import com.project.springBootProject.services.AuthorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -62,6 +58,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void delete(Long id) {
-        authorRepository.deleteById(id);
+        if (isExist(id)) {
+            authorRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Director Not Found");
+        }
     }
 }

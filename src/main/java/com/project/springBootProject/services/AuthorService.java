@@ -1,6 +1,5 @@
 package com.project.springBootProject.services;
 
-import com.project.springBootProject.domain.dto.AuthorDto;
 import com.project.springBootProject.domain.entities.AuthorEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
